@@ -25,8 +25,10 @@ CREATE TABLE `customer` (
 CREATE TABLE `fruit` (
   `fruit_id` INT NOT NULL AUTO_INCREMENT,
   `fruit_name` VARCHAR(100) NOT NULL,
-  `price_per_kg` DECIMAL(10,2) NOT NULL,
-  `stock_qty` INT NOT NULL DEFAULT 0,
+  `price_per_piece` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  `price_per_kg` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+  `stock_qty` DECIMAL(10,3) NOT NULL,
+  `unit_type` VARCHAR(10) NOT NULL DEFAULT 'piece',
   `category_id` INT DEFAULT NULL,
   `image_path` VARCHAR(255) NOT NULL DEFAULT 'images/default.png',
   PRIMARY KEY (`fruit_id`)

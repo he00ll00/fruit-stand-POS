@@ -19,19 +19,19 @@ class Fruit {
 
         if ($row = $result->fetch_assoc()) {
             $existing_id = $row['fruit_id'];
-            // update basic attributes
+            // update 
             $update = $this->conn->prepare("UPDATE fruit SET category_id = ?, unit_type = ?, image_path = ? WHERE fruit_id = ?");
             if (!$update) { die('Prepare failed (update fruit): ' . $this->conn->error); }
             $update->bind_param("issi", $category_id, $unit_type, $image_path, $existing_id);
             if (!$update->execute()) { die('Execute failed (update fruit): ' . $update->error); }
             $update->close();
 
-            // restock by adding to inventory ledger (delta = provided amount)
+            // restock by adding to inventory 
             if ($stock_qty > 0) {
                 $this->insertInventoryTxn($existing_id, $unit_type, $stock_qty, 'restock', 'manual', null, 'Initial/Additional stock on addFruit');
             }
 
-            // update prices if provided (>0)
+            // update prices 
             if ($price_per_piece > 0) { $this->setPrice($existing_id, 'piece', $price_per_piece); }
             if ($price_per_kg > 0) { $this->setPrice($existing_id, 'kg', $price_per_kg); }
             $check->close();
@@ -48,11 +48,11 @@ class Fruit {
         if (!$stmt->execute()) { die('Execute failed (addFruit): ' . $stmt->error); }
         $newFruitId = $this->conn->insert_id;
         $stmt->close();
-        // initial stock (if any) recorded as inventory transaction, using fruit default unit_type
+        // initial stock 
         if ($stock_qty > 0) {
             $this->insertInventoryTxn($newFruitId, $unit_type, $stock_qty, 'restock', 'manual', null, 'Initial stock on addFruit');
         }
-        // set initial prices if provided
+        // initial price
         if ($price_per_piece > 0) { $this->setPrice($newFruitId, 'piece', $price_per_piece); }
         if ($price_per_kg > 0) { $this->setPrice($newFruitId, 'kg', $price_per_kg); }
         return "ADDED_NEW";
@@ -104,7 +104,7 @@ class Fruit {
         $current = $this->getStock($fid);
         $delta = floatval($newStock) - floatval($current);
         if (abs($delta) < 1e-9) { return true; }
-        // use fruit default unit for ledger to maintain previous single-stock behavior
+        
         $fruit = $this->getFruit($fid);
         $unit = $fruit ? ($fruit['unit_type'] === 'kg' ? 'kg' : 'piece') : 'piece';
         $reason = ($delta < 0) ? 'sale' : 'restock';
@@ -175,7 +175,7 @@ class Fruit {
     private function setPrice($fruit_id, $unit, $price) {
         $fid = intval($fruit_id);
         $unit = ($unit === 'kg') ? 'kg' : 'piece';
-        // close existing
+    
         $stmt = $this->conn->prepare("UPDATE fruit_price SET effective_to = NOW() WHERE fruit_id = ? AND unit = ? AND effective_to IS NULL");
         if (!$stmt) die('Prepare failed (close price): ' . $this->conn->error);
         $stmt->bind_param('is', $fid, $unit);
@@ -213,34 +213,27 @@ class Fruit {
     }
 
     private function ensure3NFSchema() {
-        // Create price history table if missing
-        $this->conn->query("CREATE TABLE IF NOT EXISTS fruit_price (
-            price_id BIGINT NOT NULL AUTO_INCREMENT,
+        
+        $this->conn->query("CREATE TABLE fruit_price (
+            price_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             fruit_id INT NOT NULL,
             unit VARCHAR(10) NOT NULL,
             price DECIMAL(10,2) NOT NULL,
             effective_from DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
             effective_to DATETIME DEFAULT NULL,
-            PRIMARY KEY (price_id),
             KEY ix_price_fruit_unit (fruit_id, unit, effective_from)
-        ) ENGINE=InnoDB");
+        );
 
-        // Create inventory ledger table if missing
-        $this->conn->query("CREATE TABLE IF NOT EXISTS inventory_txn (
-            txn_id BIGINT NOT NULL AUTO_INCREMENT,
+        $this->conn->query("CREATE TABLE inventory_txn (
+            txn_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             fruit_id INT NOT NULL,
             unit VARCHAR(10) NOT NULL,
             quantity DECIMAL(10,3) NOT NULL,
-            reason VARCHAR(20) NOT NULL,
-            reference_type VARCHAR(20) DEFAULT NULL,
             reference_id BIGINT DEFAULT NULL,
-            note VARCHAR(255) DEFAULT NULL,
             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-            PRIMARY KEY (txn_id),
             KEY ix_inv_fruit (fruit_id)
-        ) ENGINE=InnoDB");
+        );
 
-        // Try to add is_active column only if it does not already exist
         if (!$this->columnExists('fruit', 'is_active')) {
             $this->conn->query("ALTER TABLE fruit ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1");
         }
@@ -256,3 +249,4 @@ class Fruit {
     }
 }
 ?>
+

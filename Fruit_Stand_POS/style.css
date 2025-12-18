@@ -1,0 +1,237 @@
+
+* {
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  color: #212529;
+  display: flex;
+  flex-direction: column;
+  align-items: center;       
+  justify-content: flex-start; 
+  min-height: 100vh;
+  margin: 0;
+  padding: 40px 0;           
+  background-color: #c1c5c9;
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  background: rgb(255, 255, 255);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+h4 {
+  margin-top: 20px;
+}
+
+/* --- Navigation --- */
+nav {
+  margin-bottom: 25px;
+}
+nav a {
+  display: inline-block;
+  background-color: #6c757d;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-right: 5px;
+  transition: background 0.2s;
+}
+nav a.btn-primary { background-color: #3b9fc7; }
+nav a.btn-success { background-color: #198754; }
+nav a.btn-dark { background-color: #343a40; }
+nav a:hover {
+  background-color: #5a6268;
+}
+
+/* --- Alerts --- */
+.alert {
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+.alert-success {
+  background-color: #d1e7dd;
+  border: 1px solid #badbcc;
+  color: #0f5132;
+}
+.alert-danger {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+}
+
+/* --- Table --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background-color: rgb(219, 230, 252);
+}
+table th, table td {
+  border: 1px solid #4c555e;
+  padding: 8px;
+  text-align: left;
+}
+table th {
+  background-color: #bcd8ee;
+}
+
+/* --- Forms --- */
+form {
+  background-color: rgb(252, 252, 252);
+  padding: 15px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  max-width: 500px;
+}
+.mb-3 {
+  margin-bottom: 15px;
+}
+label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 5px;
+}
+input[type="text"], 
+input[type="number"], 
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 14px;
+}
+button {
+  background-color: #0d6efd;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+button.btn-success { background-color: #198754; }
+button.btn-primary { background-color: #0d6efd; }
+button.btn-danger { background-color: #dc3545; }
+button:hover {
+  opacity: 0.9;
+}
+
+/* --- Receipt --- */
+.card {
+  background-color: rgb(234, 253, 252);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin-top: 15px;
+}
+
+.w-50 {
+  width: 50%;
+  min-width: 350px;
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 13px;
+}
+form {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.toast-container {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.toast {
+  background-color: white;
+  border: 1px solid #4c555e;
+  color: #212529;
+  padding: 10px 14px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  min-width: 220px;
+  max-width: 320px;
+  animation: toast-in 0.2s ease-out, toast-out 0.35s ease-in 4s forwards;
+}
+.toast-success {
+  background-color: #d1e7dd;
+  border-color: #badbcc;
+  color: #0f5132;
+}
+.toast-danger {
+  background-color: #f8d7da;
+  border-color: #f5c2c7;
+  color: #842029;
+}
+.toast-warning {
+  background-color: #ffffff;
+  border-color: #ffc107;
+  color: #212529;
+  border-width: 2px;
+  box-shadow: none;
+}
+.toast-info {
+  background-color: #cff4fc;
+  border-color: #9eeaf9;
+  color: #278ca0;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes toast-out {
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+
+/* --- Floating Icon Buttons (outside container) --- */
+.fab {
+  position: fixed;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: #ffffff;
+  background-color: #343a40; /* dark */
+  border: 1px solid #4c555e;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 10000;
+  font-size: 22px;
+}
+.fab svg { width: 24px; height: 24px; fill: currentColor; display: block; }
+.fab svg * { fill: currentColor; stroke: none; }
+
+.fab:hover { opacity: 0.9; }
+
+.fab-settings { right: 24px; top: 24px; }
+.fab-notify  { right: 24px; top: 90px; background-color: #6c757d; /* secondary */ }

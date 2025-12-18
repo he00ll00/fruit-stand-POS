@@ -9,11 +9,11 @@ class Settings {
     }
 
     private function ensureTable() {
-        $sql = "CREATE TABLE IF NOT EXISTS app_settings (
+        $sql = "CREATE TABLE app_settings (
             id INT PRIMARY KEY,
             notify_email VARCHAR(255) DEFAULT NULL,
             notify_enabled TINYINT(1) NOT NULL DEFAULT 0
-        ) ENGINE=InnoDB";
+        )";
         if (!$this->conn->query($sql)) {
             die('Failed to ensure app_settings table: ' . $this->conn->error);
         }
@@ -47,3 +47,4 @@ class Settings {
     }
 }
 ?>
+

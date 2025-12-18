@@ -113,7 +113,7 @@ class Sale {
                 ];
             }
 
-            // compute total for legacy schema if needed
+            // compute total 
             $needsTotalAmount = $this->columnExists('sale', 'total_amount');
             $total = 0.0;
             if ($needsTotalAmount) {
@@ -135,7 +135,7 @@ class Sale {
                         $stmt->bind_param("s", $custom_customer_name);
                     }
                 } else {
-                    // legacy table with sale_date (DATE) and likely total_amount
+                    
                     $sql = "INSERT INTO sale (sale_date, total_amount, customer_id, user_id, custom_customer_name) VALUES (CURDATE(), ?, NULL, 1, ?)";
                     $stmt = $this->conn->prepare($sql);
                     if (!$stmt) die('Prepare failed (insert Sale legacy): ' . $this->conn->error);

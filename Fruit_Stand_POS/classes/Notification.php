@@ -11,12 +11,12 @@ class Notification {
     }
 
     private function ensureTable() {
-        $sql = "CREATE TABLE IF NOT EXISTS notification (
+        $sql = "CREATE TABLE notification (
             id INT AUTO_INCREMENT PRIMARY KEY,
             type VARCHAR(50) NOT NULL,
             message TEXT NOT NULL,
             created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-        ) ENGINE=InnoDB";
+        );
         if (!$this->conn->query($sql)) {
             die('Failed to ensure notification table: ' . $this->conn->error);
         }
@@ -92,3 +92,4 @@ class Notification {
     }
 }
 ?>
+
